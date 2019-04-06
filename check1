@@ -1,0 +1,28 @@
+public class check {
+    public static void main(String[] ar) {
+        int n;
+        System.out.println("enter the number of process");
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+
+        int[] pid = new int[n];
+        int[] BurstTime = new int[n];
+        int[] ArrivaTime = new int[n];
+        int []completionTime  = new int[n];
+        int[] Queue = new int[n];
+        for (int i = 0; i < n; i++) {
+            pid[i] = i + 1;
+            System.out.println("Enter the Burst time");
+            BurstTime[i] = sc.nextInt();
+            System.out.println("Enter the Arrival time");
+            ArrivaTime[i] = sc.nextInt();
+            System.out.println("Enter the Queue number ");
+            Queue[i] = sc.nextInt();
+
+
+        }
+
+        System.out.println("Process Id\t" + "Burst Time\t" + "Arrival Time" + "  Queue");
+        for (int i = 0; i < n; i++) {
+            System.out.println(pid[i] + "\t\t\t  " + BurstTime[i] + "\t\t\t  " + ArrivaTime[i] + "\t\t\t  " + Queue[i] + " ");
+        }
