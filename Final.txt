@@ -1,0 +1,263 @@
+#include<iostream>
+using namespace std;
+int main() {
+
+        int n;
+        cout<<"enter the number of process: "<<endl;
+        cin>>n;
+        if (n <= 2) {
+            cout<<"The Number of proess should be more than 2\n";
+        }
+        else {
+            static int pid [10];
+            static int BurstTime[10] ;
+            static int BurstTime1[10] ;
+            static int ArrivaTime[10] ;
+            static int completionTime[10];
+            static int Queue[10];
+            static int q1[5];
+            static int q2[5];
+            int k0 = 0;
+            int k1 = 0;
+
+            for (int i = 0; i < n; i++) {
+                pid[i] = i + 1;
+                cout<<"Enter the Burst time: ";
+                cin>>BurstTime[i];
+                BurstTime1[i] = BurstTime[i];
+                cout<<"Enter the Arrival time: ";
+                cin>>ArrivaTime[i];
+                cout<<"Enter the Queue number: ";
+                cin>>Queue[i] ;
+
+
+            }
+
+            cout<<"Process Id\t" << "Burst Time\t" << "Arrival Time" << "  Queue"<<endl;
+            for (int i = 0; i < n; i++) {
+                cout<<pid[i] << "\t\t" << BurstTime[i] << "\t\t " << ArrivaTime[i] << "\t\t " << Queue[i] << " "<<endl;
+            }
+
+            int max1 = ArrivaTime[0];
+            int min1 = ArrivaTime[0];
+            for (int i = 0; i < n; i++) {
+                if (max1 < ArrivaTime[i]) {
+                    max1 = ArrivaTime[i];
+                }
+                else
+                    min1 = ArrivaTime[i];
+            }
+
+
+
+
+            for (int i = 0; i < n; i++) {
+
+                if (Queue[i] == 1) {
+                    q1[k0] = i + 1;
+                    ++k0;
+                }
+                if (Queue[i] == 2) {
+                    q2[k1] = i + 1;
+                    ++k1;
+                }
+
+            }
+
+            cout<<endl;
+            for (int k = 0; k <n; k++) {
+
+                cout<<q1[k] << " ";
+
+            }
+            cout<<endl;
+            for (int k = 0; k < n; k++) {
+                cout<<q2[k] << " ";
+            }
+
+
+
+            int t = 0;
+            //String s[10] ;
+            int sum =0;
+            int k =0;
+            int time1[2];
+            int time2[2];
+            int k3=0;
+            int k2=0;
+            while(min1<=max1)
+            {
+                if(ArrivaTime[k]==min1)
+                {
+                    if(Queue[k]==1)
+                    {
+                        //s[min1] = ("p "+(min1+1));
+                        time1[k3] = min1;
+                        q1[k3] = pid[k];
+                        k3++;
+                    }
+                    if(Queue[k]==2)
+                    {
+
+                        //time2[k2] = min;
+                        q2[k2] = pid[k];
+                        k2++;
+                    }
+                    k++;
+                }
+                min1++;
+            }
+
+            for (int i = 0; i < 5; i++) {
+                cout<<q1[i] + " ";
+            }
+            cout<<endl;
+            for (int i = 0; i < 5; i++) {
+                cout<<q2[i] + " ";
+            }
+            cout<<endl;
+
+
+            cout<<endl;
+            for (int i = 0; i < 2; i++) {
+                cout<<time1[i] + " ";
+            }
+            int n1 = 0;
+            for (int i = 0; i < 5; i++) {
+                if (q1[i] != 0) {
+                    n1++;
+                }
+            }
+            int n2=0;
+            for (int i = 0; i < 5; i++) {
+                if (q2[i] != 0) {
+                    n2++;
+                }
+            }
+            BurstTime[q1[0]-1] = BurstTime[q1[0]-1] - time1[1];
+            sum = time1[1];
+            for(int i =0;i<n1;i++)
+            {
+                for(int j =i+1;j<n1;j++)
+                {
+                    if(BurstTime[q1[i]-1]<=BurstTime[q1[j]-1])
+                    {
+
+                        completionTime[q1[i]-1] = sum + BurstTime[q1[i]-1];
+                        sum = completionTime[q1[i]-1];
+                        time1[q1[i]-1] = sum;
+                        BurstTime[q1[i]-1] = BurstTime[q1[i]-1] - BurstTime[q1[i]-1];
+                    }
+                    else
+                    {
+                        completionTime[j] = sum + BurstTime[q1[j]-1];
+                        sum = completionTime[j];
+                        BurstTime[q1[j]-1] = BurstTime[q1[j]-1] - BurstTime[q1[j]-1];
+                    }
+                }
+            }
+
+            for(int i =0;i<n1;i++)
+            {
+                if(BurstTime[q1[i]-1]!=0)
+                {
+                    completionTime[q1[i]-1] = sum + BurstTime[q1[i]-1];
+                    sum = completionTime[q1[i]-1];
+                    BurstTime[q1[i]-1] = BurstTime[q1[i]-1] - BurstTime[q1[i]-1];
+                }
+            }
+
+            int count1 = 0;
+            int time =0;
+            while(time>=0)
+            {
+                cout<<"intial "<<time <<endl;
+                for(int i =0;i<2;i++)
+                {
+                        if(time>=0 && time <2)
+                        {
+                                if(BurstTime[q2[i]-1]!=0){
+                                    cout<<"time "<<time <<endl;
+                                    completionTime[q2[i]-1] = sum + 1;
+                                    sum = completionTime[q2[i]-1];
+                                    BurstTime[q2[i]-1] = BurstTime[q2[i]-1] - 1;
+                                    cout<<"Burst time is :"<<BurstTime[q2[i]-1]<<endl;
+                                    //cout<<"value" <<q2[i]<<endl;
+                                    count1++;
+                                    break;
+                                    }
+                                    else
+                                    {
+                                        goto f;
+                                    }
+                        }
+
+
+
+                        else{
+
+                                f:time =-1;
+                                int t = q2[i];
+                                q2[i]= q2[i+1];
+                                q2[i+1] = t;
+                                if(BurstTime[q2[i]-1]!=0)
+                                {
+                                    cout<<"Inside else "<<BurstTime[q2[i]-1]<<endl;
+                                    cout<<time <<endl;
+                                    break;
+                                }
+                                else
+                                {
+                                    goto f1;
+                                }
+
+
+
+                        }
+                    }
+                    time++;
+                }
+                f1:cout<<"finish"<<"time used "<<count1<<endl;
+
+                int turnAr[n];
+                int waitingTime[n];
+                int sumt=0;
+                int sumW =0;
+
+                for(int i =0;i<n;i++)
+                {
+
+                        turnAr[i] = completionTime[i] - ArrivaTime[i];
+                        sumt = sumt+turnAr[i];
+                        waitingTime[i] = turnAr[i]-BurstTime1[i];
+                        sumW = sumW + waitingTime[i];
+
+                }
+                cout<<"PId\t" << "BT\t" << "AT\t" << "Queue\t"<<"CT\t"<<"TAT\t"<<"WT"<<endl;
+                for (int i = 0; i < n; i++) {
+                cout<<pid[i] << "\t" << BurstTime1[i] << "\t" << ArrivaTime[i] << "\t " << Queue[i] << " "<<"\t"<<completionTime[i]<<"\t"<<turnAr[i]<<"\t"<<waitingTime[i]<<endl;
+            }
+            float avgT,avgW;
+
+            avgT = (float)sumt/n;
+            avgW = (float)sumW/n;
+            cout<<"\nAverage Turn Around time :"<<avgT <<endl<<"Average Turn Around time :"<<avgW<<endl;
+
+
+
+            }
+
+
+
+
+                getch();
+
+        }
+
+
+
+
+
+
+
+
